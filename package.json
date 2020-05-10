@@ -1,0 +1,53 @@
+{
+  "name": "react-hook-request",
+  "version": "0.1.0",
+  "author": "Mikhail Ivannikov",
+  "license": "MIT",
+  "module": "dist/use-request.esm.js",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "qs": "^6.9.4",
+    "ramda": "^0.27.0"
+  },
+  "devDependencies": {
+    "@types/qs": "^6.9.2",
+    "@types/ramda": "^0.27.4",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
+    "husky": "^4.2.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "tsdx": "^0.13.2",
+    "tslib": "^1.11.2",
+    "typescript": "^3.8.3"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  }
+}
