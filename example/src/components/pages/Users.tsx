@@ -1,9 +1,12 @@
 import * as React from 'react'
-import { useRequest } from '../../../src'
-import api from '../api'
-import { IGetUsers } from '../api/users'
+import { Link, generatePath } from 'react-router-dom'
+import { useRequest } from '../../../../src'
+import PageWrapper from '../wrappers/PageWrapper'
+import api from '../../api'
+import { IGetUsers } from '../../api/users'
+import { ROUTES } from '../../constants/routes'
 
-const Users = () => {
+const Users: React.FC = () => {
   const users = useRequest<IGetUsers.Request, IGetUsers.Response>(
     api.users.getAll,
     {
@@ -21,11 +24,11 @@ const Users = () => {
 
   if (!users.data) {
     return (
-      <div>
+      <PageWrapper>
         {users.loading && <div>...Loading</div>}
 
         {!users.loading && users.error && <div>{users.error.errorMessage}</div>}
-      </div>
+      </PageWrapper>
     )
   }
 
@@ -33,20 +36,20 @@ const Users = () => {
     const userList = users.data || []
 
     return userList.map(({ id, name, avatar }: IGetUsers.User) => (
-      <div key={id}>
+      <Link key={id} to={generatePath(ROUTES.USER_PAGE, { id })}>
         <div>{name}</div>
 
         <img src={avatar} alt={name} />
-      </div>
+      </Link>
     ))
   }
 
   return (
-    <div>
+    <PageWrapper>
       <h1>User List</h1>
 
       <div>{renderUsers()}</div>
-    </div>
+    </PageWrapper>
   )
 }
 

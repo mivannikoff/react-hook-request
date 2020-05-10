@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { useForm } from 'react-hook-form'
-import { useRequest } from '../../../src'
-import api from '../api'
-import { ICreateUser } from '../api/users'
+import { useRequest } from '../../../../src'
+import PageWrapper from '../wrappers/PageWrapper'
+import api from '../../api'
+import { ICreateUser } from '../../api/users'
 
-const CreateUser = () => {
+const CreateUser: React.FC = () => {
   const { handleSubmit, register, errors, reset } = useForm()
 
   const createUser = useRequest<ICreateUser.Request, ICreateUser.Response>(
@@ -31,8 +32,8 @@ const CreateUser = () => {
   )
 
   return (
-    <div>
-      <div>Create User</div>
+    <PageWrapper>
+      <h1>Create User</h1>
 
       <form
         onSubmit={handleSubmit(handleAddUser)}
@@ -56,7 +57,7 @@ const CreateUser = () => {
           {createUser.loading ? '...Loading' : 'Add'}
         </button>
       </form>
-    </div>
+    </PageWrapper>
   )
 }
 
