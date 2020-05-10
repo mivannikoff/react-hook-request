@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { useParams } from 'react-router-dom'
-import { useRequest } from '../../../src'
-import api from '../api'
-import { IGetUser } from '../api/users'
+import { useRequest } from '../../../../src'
+import PageWrapper from '../wrappers/PageWrapper'
+import api from '../../api'
+import { IGetUser } from '../../api/users'
 
-const User = () => {
+const User: React.FC = () => {
   const params = useParams<{ id: string }>()
 
   const user = useRequest<IGetUser.Request, IGetUser.Response>(api.users.get, {
@@ -25,22 +26,22 @@ const User = () => {
 
   if (!user.data) {
     return (
-      <div>
+      <PageWrapper>
         {user.loading && <div>...Loading</div>}
 
         {!user.loading && user.error && <div>{user.error.errorMessage}</div>}
-      </div>
+      </PageWrapper>
     )
   }
 
   const { name, avatar } = user.data
 
   return (
-    <div>
+    <PageWrapper>
       <div>{name}</div>
 
       <img src={avatar} alt={name} />
-    </div>
+    </PageWrapper>
   )
 }
 
