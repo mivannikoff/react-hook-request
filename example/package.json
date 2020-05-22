@@ -4,8 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "remove-cache": "rimraf ./.cache && rimraf ./dist",
+    "start": "yarn remove-cache && parcel index.html",
+    "build": "yarn remove-cache && parcel build index.html"
   },
   "dependencies": {
     "react-app-polyfill": "^1.0.0",
@@ -23,6 +24,7 @@
     "@types/react-dom": "^16.8.4",
     "@types/react-router-dom": "^5.1.5",
     "parcel": "^1.12.3",
+    "rimraf": "^3.0.2",
     "typescript": "^3.4.5"
   }
 }
