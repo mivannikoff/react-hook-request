@@ -3,8 +3,8 @@ import { AxiosPromise, AxiosError } from 'axios'
 import R from 'ramda'
 
 type Config = {
-  displayError?: boolean
-  errorLabel: string
+  errorLabel?: string
+  showConsoleError?: boolean
 }
 
 type Callbacks<D> = {
@@ -18,6 +18,11 @@ type Options<T, D> = {
   callbacks?: Callbacks<D>
 }
 
+const defaultRequestConfig: Config = {
+  errorLabel: undefined,
+  showConsoleError: true,
+}
+
 const defaultCallbacksValue = {
   successCallback: (data: any) => data,
   errorCallback: (error: any) => error,
@@ -26,8 +31,13 @@ const defaultCallbacksValue = {
 
 export const useRequest = <T, D>(
   method: (params: T) => AxiosPromise<D>,
-  config: Config
+  config?: Config
 ) => {
+  const configList = {
+    ...defaultRequestConfig,
+    ...config,
+  }
+
   const isMounted = React.useRef(true)
 
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -74,7 +84,9 @@ export const useRequest = <T, D>(
 
         callbackList.successCallback(data)
       } catch (error) {
-        console.log(`${config.errorLabel} * `, { error })
+        if (configList.showConsoleError && configList.errorLabel) {
+          console.log(`${configList.errorLabel} * `, { error })
+        }
 
         const errorMessage = R.path(['response', 'data', 'message'], error)
 
@@ -92,7 +104,7 @@ export const useRequest = <T, D>(
         callbackList.finallyCallback()
       }
     },
-    [method, config, setLoading, setData, setError]
+    [method, configList, setLoading, setData, setError]
   )
 
   return {
