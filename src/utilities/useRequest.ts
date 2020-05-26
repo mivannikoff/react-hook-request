@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { AxiosPromise, AxiosError } from 'axios'
 import R from 'ramda'
+import globalConfig from '../globalConfig'
 
 type Config = {
   errorLabel?: string
@@ -18,11 +19,6 @@ type Options<T, D> = {
   callbacks?: Callbacks<D>
 }
 
-const defaultRequestConfig: Config = {
-  errorLabel: undefined,
-  showConsoleError: true,
-}
-
 const defaultCallbacksValue = {
   successCallback: (data: any) => data,
   errorCallback: (error: any) => error,
@@ -34,7 +30,7 @@ export const useRequest = <T, D>(
   config?: Config
 ) => {
   const configList = {
-    ...defaultRequestConfig,
+    ...globalConfig,
     ...config,
   }
 

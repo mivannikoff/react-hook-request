@@ -2,16 +2,13 @@ import axios, { Method, AxiosRequestConfig } from 'axios'
 import R from 'ramda'
 import qs from 'qs'
 import formatUrl from './formatUrl'
-
-export const setBaseUrl = (url: string | undefined) => {
-  axios.defaults.baseURL = url ? formatUrl(url) : url
-}
+import globalConfig from '../globalConfig'
 
 export const setHeader = (header: string, value: string | null) => {
   if (value === null) {
-    delete axios.defaults.headers.common[header]
+    delete globalConfig.headers[header]
   } else {
-    axios.defaults.headers.common[header] = value
+    globalConfig.headers[header] = value
   }
 }
 
@@ -36,7 +33,7 @@ export const request = (url: string, options?: IOptionsProps) => {
 
   const baseURL: string = isHaveHttp
     ? formattedUrl
-    : `${axios.defaults.baseURL}/${formattedUrl}`
+    : `${formatUrl(globalConfig.baseUrl)}/${formattedUrl}`
 
   const getParamsSerializer = (params: object) => {
     return qs.stringify(params, { arrayFormat: 'repeat' })
@@ -45,6 +42,7 @@ export const request = (url: string, options?: IOptionsProps) => {
   const requestConfig: AxiosRequestConfig = {
     url: baseURL,
     method,
+    headers: globalConfig.headers,
     data,
     params,
     paramsSerializer: getParamsSerializer,
