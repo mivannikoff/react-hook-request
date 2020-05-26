@@ -92,6 +92,8 @@ export const useRequest = <T, D>(
         }
 
         callbackList.errorCallback(error)
+
+        globalConfig.globalErrorCallback(error)
       } finally {
         if (isMounted.current) {
           setLoading(false)

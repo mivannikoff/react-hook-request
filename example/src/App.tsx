@@ -11,12 +11,15 @@ const baseUrl = 'https://5eb2deca974fee0016ecd021.mockapi.io/'
 
 const App: React.FC = () => {
   React.useMemo(() => {
-    setConfig({ baseUrl })
+    setConfig({
+      baseUrl,
+    })
 
     // Or
     // setConfig((config: IGlobalConfig) => ({
     //   ...config,
     //   showConsoleError: false,
+    //   globalErrorCallback: error => console.log({ error }),
     // }))
   }, [])
 
